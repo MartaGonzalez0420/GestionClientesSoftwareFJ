@@ -9,7 +9,7 @@ from typing import Callable
 from entidades import Cliente
 
 # Importa la excepcion base del sistema.
-from excepciones import ErrorSistemaFJ
+from excepciones import ErrorGestionClientes
 
 # Importa el gestor principal.
 from gestor import GestorSistemaFJ
@@ -31,7 +31,7 @@ def ejecutar_operacion(
         # Ejecuta la funcion 'accion' y guarda su resultado en texto.
         resultado = accion()
     # Captura errores controlados del dominio Software FJ.
-    except ErrorSistemaFJ as exc:
+    except ErrorGestionClientes as exc:
         # Actualiza el estado de la operacion.
         estado_op = "RECHAZADA (Error controlado)"
         # Registra el error en el archivo de logs.
