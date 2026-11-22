@@ -14,7 +14,7 @@ from entidades import Cliente
 from excepciones import (
     CalculoFinancieroError,
     EntidadNoEncontradaError,
-    ErrorSistemaFJ,
+    ErrorGestionClientes,
     ValidacionError,
 )
 
@@ -199,7 +199,7 @@ class GestorSistemaFJ:
             # Aplica porcentajes de descuento e impuesto.
             return self._aplicar_ajustes_financieros(base, descuento_pct, impuesto_pct)
         # Captura errores de dominio y los encadena como CalculoFinancieroError.
-        except ErrorSistemaFJ as exc:
+        except ErrorGestionClientes as exc:
             # Encadena con 'from exc'.
             raise CalculoFinancieroError(
                 f"Error al calcular el costo de la reserva '{reserva.id}': {exc.mensaje}",
@@ -223,7 +223,7 @@ class GestorSistemaFJ:
             # Aplica porcentajes de descuento e impuesto.
             return self._aplicar_ajustes_financieros(base, descuento_pct, impuesto_pct)
         # Captura errores de dominio y los encadena como CalculoFinancieroError.
-        except ErrorSistemaFJ as exc:
+        except ErrorGestionClientes as exc:
             # Encadena con 'from exc'.
             raise CalculoFinancieroError(
                 f"Error al calcular el costo del servicio '{servicio.id}': {exc.mensaje}",
@@ -366,7 +366,7 @@ class GestorSistemaFJ:
     # Registra cualquier excepcion en el archivo de logs sin detener la ejecucion.
     def registrar_error(self, operacion: str, exc: Exception) -> None:
         # Si es un error propio del sistema, registra codigo, mensaje y detalles.
-        if isinstance(exc, ErrorSistemaFJ):
+        if isinstance(exc, ErrorGestionClientes):
             # Escribe el error en el log.
             self.logger.error(
                 f"[{operacion}] {exc.codigo} -> {exc.mensaje} | Detalles: {exc.detalles}"
